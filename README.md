@@ -39,7 +39,8 @@ ESRI map for salesforce integration demo
 ```
 ### Sample Return Object
 ```javascript
-  Object { // sample object with only 'FunctionalLocation' parameter returned
+ // sample object with only 'FunctionalLocation' parameter returned
+  Object {
     EquipmentID: undefined, // No 'EquipmentID' for this layer, so returns undefined
     FunctionalLocation: Object { // Object returned for functional location
       alias: "SAP ID", // alias field name for reference
