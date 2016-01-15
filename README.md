@@ -5,6 +5,7 @@ ESRI map for salesforce integration demo. Read this to understand the parameters
 ## Index.html
 ### Sample input object 
 ```javascript
+  // [atangeman20150115]
   // User defined attributes
   this._x = -117.1638107; // pass long here
   this._y = 32.7170075;   // pass lat here
@@ -19,6 +20,7 @@ ESRI map for salesforce integration demo. Read this to understand the parameters
 ```
 ### Sender module (for reference purposes):
 ```javascript
+  // [atangeman20150115]
  // This function delivers the SAP sender object to the controller class once the map loads. 
  // You may use the the Controller.handleIdentifyRequest(this.sendObj); function to deliver on-demand. 
  // This method subscribes to load event to fire ONLY when the map first loads.
@@ -26,7 +28,7 @@ ESRI map for salesforce integration demo. Read this to understand the parameters
     Controller.handleIdentifyRequest(this.sendObj); // pass sender object to controller for delivery to identify widget
     this.appLoadHandler.remove(); // must only handle once, so remove listener
   }));
-  
+  // [atangeman20150115]
   // USE THIS FUNCTION FOR YOUR OWN SEPARATE SAP CALL
   // function must be called after the map is fully loaded, and within the same scope of the main function!
   Controller.handleIdentifyRequest(this.sendObj);
@@ -34,6 +36,7 @@ ESRI map for salesforce integration demo. Read this to understand the parameters
 ```
 ### Result return function
 ```javascript
+  // [atangeman20150115]
   topic.subscribe('controller/identifyResult', lang.hitch(this, function (args) {
     var result = args.returnObj; // <- This is your SAP result object
     console.log(result);
@@ -41,6 +44,7 @@ ESRI map for salesforce integration demo. Read this to understand the parameters
 ```
 ### Sample SAP Return Object
 ```javascript
+ // [atangeman20150115]
  // sample object with only 'FunctionalLocation' parameter returned
   Object {
     EquipmentID: undefined, // No 'EquipmentID' for this layer, so returns undefined
@@ -57,6 +61,7 @@ ESRI map for salesforce integration demo. Read this to understand the parameters
 ## Identify Config (/js/config/identify.js) 
 ### Sample dojo configuration options
 ```javascript
+  // [atangeman20150115]
   define({
   	map: true,
   	mapClickMode: true,
