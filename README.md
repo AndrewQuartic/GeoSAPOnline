@@ -1,5 +1,5 @@
 # GeoSAPOnline
-ESRI map for salesforce integration demo - [atangeman20150115]
+ESRI map for salesforce integration demo - atangeman20150115
 
 ## Index.html
 ### Sample input object 
