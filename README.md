@@ -1,5 +1,5 @@
 # GeoSAPOnline
-ESRI map for salesforce integration demo
+ESRI map for salesforce integration demo - [atangeman20150115]
 
 ## Index.html
 ### Sample input object 
@@ -18,7 +18,7 @@ ESRI map for salesforce integration demo
 ```
 ### Sender module (for reference purposes):
 ```javascript
- // This function delivers the sender object to the controller class once the map loads. 
+ // This function delivers the SAP sender object to the controller class once the map loads. 
  // You may use the the Controller.handleIdentifyRequest(this.sendObj); function to deliver on-demand. 
  // This method subscribes to load event to fire ONLY when the map first loads.
   this.appLoadHandler = topic.subscribe('controller/AppLoaded', lang.hitch(this, function (args) {
@@ -26,18 +26,19 @@ ESRI map for salesforce integration demo
     this.appLoadHandler.remove(); // must only handle once, so remove listener
   }));
   
-  // USE THIS FUNCTION FOR YOUR OWN SEPARATE CALL
+  // USE THIS FUNCTION FOR YOUR OWN SEPARATE SAP CALL
+  // function must be called after the map is fully loaded, and within the same scope of the main function!
   Controller.handleIdentifyRequest(this.sendObj);
   
 ```
 ### Result return function
 ```javascript
   topic.subscribe('controller/identifyResult', lang.hitch(this, function (args) {
-    var result = args.returnObj; // <- This is your result
+    var result = args.returnObj; // <- This is your SAP result object
     console.log(result);
   }));
 ```
-### Sample Return Object
+### Sample SAP Return Object
 ```javascript
  // sample object with only 'FunctionalLocation' parameter returned
   Object {
