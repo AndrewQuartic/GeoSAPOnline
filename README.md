@@ -4,6 +4,10 @@ ESRI map for salesforce integration demo
 ## Index.html
 ### Sample input object 
 ```javascript
+  // User defined attributes
+  this._x = -117.1638107; // pass long here
+  this._y = 32.7170075;   // pass lat here
+  this._layerId = 15;     // pass id of layer here
   // New object is declared locally:
   sendObj = new SenderObject({
     x: this._x,
