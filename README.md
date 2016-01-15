@@ -16,6 +16,20 @@ ESRI map for salesforce integration demo
   });
                     
 ```
+### Sender module (for reference purposes):
+```javascript
+ // This function delivers the sender object to the controller class once the map loads. 
+ // You may use the the Controller.handleIdentifyRequest(this.sendObj); function to deliver on-demand. 
+ // This method subscribes to load event to fire ONLY when the map first loads.
+  this.appLoadHandler = topic.subscribe('controller/AppLoaded', lang.hitch(this, function (args) {
+    Controller.handleIdentifyRequest(this.sendObj); // pass sender object to controller for delivery to identify widget
+    this.appLoadHandler.remove(); // must only handle once, so remove listener
+  }));
+  
+  // USE THIS FUNCTION FOR YOUR OWN SEPARATE CALL
+  Controller.handleIdentifyRequest(this.sendObj);
+  
+```
 ### Result return function
 ```javascript
   topic.subscribe('controller/identifyResult', lang.hitch(this, function (args) {
