@@ -48,7 +48,7 @@ ESRI map for salesforce integration demo
       length: 9, // ignore
       name: "SAPID", // field name for referenc e
       result: "SS-000030" // RESULT 
-    }
+    },
     MaterialID: undefined, // No 'MaterialID' for this layer, so returns undefined
   }
 ```
