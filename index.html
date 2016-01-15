@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <title>GeoSAP Web Test</title>
+        <link rel="stylesheet" type="text/css" href="//js.arcgis.com/3.14compact/esri/css/esri.css">
+        <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="css/theme/dbootstrap/dbootstrap.css">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+    </head>
+    <body class="dbootstrap">
+    
+        <div class="appHeader">
+            <div class="headerTitle">
+                <span id="headerTitleSpan">
+                    GeoSAP Web Test
+                </span>
+            </div>
+			<div></br></div>
+            <div class="search">
+                <div id='geocodeDijit' >
+                </div>
+            </div>
+            <div class="headerLinks">
+                <div id="helpDijit">
+                </div>
+            </div>
+
+        </div>
+        <script type="text/javascript">
+
+var dojoConfig = {
+    async: true,
+    packages: [{
+        name: 'viewer',
+        location: location.pathname.replace(/[^\/]+$/, '') + 'js/viewer'
+    }, {
+        name: 'config',
+        location: location.pathname.replace(/[^\/]+$/, '') + 'js/config'
+    }, {
+        name: 'gis',
+        location: location.pathname.replace(/[^\/]+$/, '') + 'js/gis'
+    }]
+};
+</script>
+        <!--[if lt IE 9]>
+            <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.0.3/es5-shim.min.js"></script>
+        <![endif]-->
+        <script type="text/javascript" src="//js.arcgis.com/3.14compact/">
+</script>
+        <script type="text/javascript">
+            
+            // get the config file from the url if present
+            var file = 'config/viewer', s = window.location.search, q = s.match(/config=([^&]*)/i);
+            if (q && q.length > 0) {
+                file = q[1];
+                if(file.indexOf('/') < 0) {
+                    file = 'config/' + file;
+                }
+            }
+            require(['dojo/on', 'viewer/Controller', 'dojo/topic', 'dojo/Stateful', 'dojo/_base/declare', 'dojo/_base/lang', file], 
+                function(on, Controller, topic, Stateful, declare, lang, config){
+                    Controller.startup(config); 
+                    // [atangeman20150115]
+                    // Object to send to identify widget
+                    // Created as stateful so listeners can be attached if needed (not used in this implementation)
+                    this.SenderObject = declare([Stateful], { x: null, y: null, layerId: null }); // initialize stateful object with defaults    
+                    // [atangeman20150115]
+                    // User defined attributes
+                    var _x = -117.1638107; // pass long here
+                    var _y = 32.7170075;   // pass lat here
+                    var _layerId = 15;     // pass id of layer here
+                    // New object is declared locally:
+                    sendObj = new SenderObject({
+                        x: -117.1638107,
+                        y: 32.7170075,
+                        layerId: 15
+                    });
+                    // [atangeman20150115]
+                    // Subscribe to load event to fire when Identify widget loads successfully.
+                    this.appLoadHandler = topic.subscribe('controller/AppLoaded', lang.hitch(this, function (args) {
+                        Controller.handleIdentifyRequest(this.sendObj); // pass sender object to controller for delivery to identify widget
+                        this.appLoadHandler.remove(); // must only handle once, so remove listener
+                    }));
+                    // [atangeman20150115]
+                    // Subscribe to results passed from identify widget
+                    // Handle return object
+                    topic.subscribe('controller/identifyResult', lang.hitch(this, function (args) {
+                        var result = args.returnObj; // <- This is your result
+                        console.log(result);
+                    }));
+            });
+        </script>
+
+    </body>
+    
+</html>
