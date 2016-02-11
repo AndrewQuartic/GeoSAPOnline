@@ -43,6 +43,8 @@ lang, array, all, topic, query, domStyle, domClass, Moveable, Memory, IdentifyTa
         allLayersId: '',
         sapFields: null ,
         URL: null,
+        LAT: null,
+        LON: null,
         postCreate: function() {
             this.inherited(arguments);
             if (!this.identifies) {
@@ -205,6 +207,11 @@ lang, array, all, topic, query, domStyle, domClass, Moveable, Memory, IdentifyTa
                         sapFld["result"] = sapFldVal || null ; // create new parameter in return object and populate results
                     }
                 }
+                // [atangeman20150209]
+                // Return extra info to controller
+
+               resObj["LayerID"] = data.id;
+               resObj["Geometry"] = this.mapPoint.normalize();
                 // [atangeman20150110]
                 // return SAP object payload with result parameter attached to controller.js
                 // this will then be served up to the root html for external access
@@ -249,8 +256,8 @@ lang, array, all, topic, query, domStyle, domClass, Moveable, Memory, IdentifyTa
             }
             this.map.infoWindow.hide();
             this.map.infoWindow.clearFeatures();
-            var mapPoint = _mapPoint || evt.mapPoint;
-            var identifyParams = this.createIdentifyParams(mapPoint);
+            this.mapPoint = _mapPoint || evt.mapPoint;
+            var identifyParams = this.createIdentifyParams(this.mapPoint);
             var identifies = [];
             var identifiedlayers = [];
             var selectedLayer = null ;
@@ -272,7 +279,7 @@ lang, array, all, topic, query, domStyle, domClass, Moveable, Memory, IdentifyTa
             if (identifies.length > 0) {
                 this.map.infoWindow.setTitle(this.i18n.mapInfoWindow.identifyingTitle);
                 this.map.infoWindow.setContent('<div class="loading"></div>');
-                this.map.infoWindow.show(mapPoint);
+                this.map.infoWindow.show(this.mapPoint);
                 all(identifies).then(lang.hitch(this, 'identifyCallback', identifiedlayers), lang.hitch(this, 'identifyError'));
             }
         },

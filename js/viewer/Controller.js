@@ -573,6 +573,7 @@ define([
 						"x": this.options.x,
 						"y": this.options.y,
 			});
+			//var outSR = new SpatialReference(102100);
 			mapPoint.geometry = webMercatorUtils.project(mapPoint, this.map); // project point to Web Mercador
 			topic.publish('externalRequest/identify', { // publish to relevant listeners
 				mapPt: mapPoint, 

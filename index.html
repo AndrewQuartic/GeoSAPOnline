@@ -71,14 +71,14 @@ var dojoConfig = {
                     this.SenderObject = declare([Stateful], { x: null, y: null, layerId: null }); // initialize stateful object with defaults    
                     // [atangeman20150115]
                     // User defined attributes
-                    var _x = -117.1638107; // pass long here
-                    var _y = 32.7170075;   // pass lat here
-                    var _layerId = 15;     // pass id of layer here
+                    this._x = -117.1638107; // pass long here
+                    this._y = 32.7170075;   // pass lat here
+                    this._layerId = 15;     // pass id of layer here
                     // New object is declared locally:
                     sendObj = new SenderObject({
-                        x: -117.1638107,
-                        y: 32.7170075,
-                        layerId: 15
+                        x: this._x,
+                        y: this._y,
+                        layerId: this._layerId
                     });
                     // [atangeman20150115]
                     // Subscribe to load event to fire when Identify widget loads successfully.
@@ -88,11 +88,14 @@ var dojoConfig = {
                     }));
                     // [atangeman20150115]
                     // Subscribe to results passed from identify widget
+                    var resultArray = [];  // <- Use this array to capture multiple results
                     // Handle return object
                     topic.subscribe('controller/identifyResult', lang.hitch(this, function (args) {
                         var result = args.returnObj; // <- This is your result
-                        console.log(result);
-                    }));
+                        resultArray.push(result); // Array will build on multiple returns
+                        console.log(resultArray); // Print each addition to array
+                        console.log(resultArray[0]); // always grab first object returned.
+                    })); 
             });
         </script>
 
