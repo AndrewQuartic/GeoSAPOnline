@@ -36,11 +36,16 @@ ESRI map for salesforce integration demo. Read this to understand the parameters
 ```
 ### Result return function
 ```javascript
-  // [atangeman20150115]
+  // [atangeman20150214]
+  // Subscribe to results passed from identify widget
+  var resultArray = [];  // <- Use this array to capture multiple results
+  // Handle return object
   topic.subscribe('controller/identifyResult', lang.hitch(this, function (args) {
-    var result = args.returnObj; // <- This is your SAP result object
-    console.log(result);
-  }));
+    var result = args.returnObj; // <- This is your result
+    resultArray.push(result); // Array will build on multiple returns
+    console.log(resultArray); // Print each addition to array to demonstrate return frequency
+    console.log(resultArray[0]); // Use indexer to always grab first object returned.
+  })); 
 ```
 ### Sample SAP Return Object
 ```javascript
