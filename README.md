@@ -36,11 +36,16 @@ ESRI map for salesforce integration demo. Read this to understand the parameters
 ```
 ### Result return function
 ```javascript
-  // [atangeman20150115]
+  // [atangeman20150214]
+  // Subscribe to results passed from identify widget
+  var resultArray = [];  // <- Use this array to capture multiple results
+  // Handle return object
   topic.subscribe('controller/identifyResult', lang.hitch(this, function (args) {
-    var result = args.returnObj; // <- This is your SAP result object
-    console.log(result);
-  }));
+    var result = args.returnObj; // <- This is your result
+    resultArray.push(result); // Array will build on multiple returns
+    console.log(resultArray); // Print each addition to array to demonstrate return frequency
+    console.log(resultArray[0]); // Use indexer to always grab first object returned.
+  })); 
 ```
 ### Sample SAP Return Object
 ```javascript
@@ -56,6 +61,15 @@ ESRI map for salesforce integration demo. Read this to understand the parameters
       result: "SS-000030" // RESULT 
     },
     MaterialID: undefined, // No 'MaterialID' for this layer, so returns undefined
+    // [atangeman20150214] modified return object to include layerid, lat, lon
+    LayerID: 15 //ID of identified layer
+    Geometry: Object { // geometry object containing geographic coordinate info
+      spatialReference: Object{ // spatial reference of layer
+        wkid: 4326 // WKID (well-known ID) of coordinate system - important for reprojecting to different systems
+      },
+      x: -117.1638107, // Longitude - should be compatible with Google Maps 
+      y: 32.7170075 // Latitude - should be compatible with Google Maps 
+    }
   }
 ```
 ## Identify Config (/js/config/identify.js) 
