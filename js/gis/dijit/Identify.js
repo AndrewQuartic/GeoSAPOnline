@@ -209,9 +209,14 @@ lang, array, all, topic, query, domStyle, domClass, Moveable, Memory, IdentifyTa
                 }
                 // [atangeman20150209]
                 // Return extra info to controller
-
                resObj["LayerID"] = data.id;
-               resObj["Geometry"] = this.mapPoint.normalize();
+               // [atangeman20150214]
+                // check if x, y values are returned instead of lat long if so normalize.
+               resObj["Geometry"] = {
+                       "y" : this.mapPoint.getLatitude(),
+                       "x" : this.mapPoint.getLongitude(),
+                       "spatialReference" : this.mapPoint.spatialReference
+               }
                 // [atangeman20150110]
                 // return SAP object payload with result parameter attached to controller.js
                 // this will then be served up to the root html for external access
